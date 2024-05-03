@@ -24,9 +24,9 @@ const char* password = "totallysecure";
 // Set up MQTT client
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
-const char* mqtt_server = "192.168.1.100"; // Broker IP (ESP8266 AP IP) switch this to the pis ip
-
-
+const char* mqtt_server = "192.168.1.149";  // Update to your Raspberry Pi's IP
+const char* mqtt_user = "BB1";  // MQTT Username
+const char* mqtt_password = "XXX";  // MQTT Password
 // Motor pin definitions
 #define IN1_LEFT 19
 #define IN2_LEFT 15//CHANGED FROM 21 MOVE WIRE
@@ -119,21 +119,21 @@ void setupMQTT() {
     reconnectMQTT();
 }
 
-// Improved MQTT connection function with reconnection logic
 void reconnectMQTT() {
     while (!mqttClient.connected()) {
         Serial.println("Connecting to MQTT Broker...");
-        if (mqttClient.connect("ESP32Client", "MQTT_Username", "MQTT_Password")) {
+        mqttClient.setCleanSession(false);  // Ensures that subscriptions persist after a disconnection
+        if (mqttClient.connect("ESP32Client", mqtt_user, mqtt_password)) {
             Serial.println("Connected to MQTT Broker!");
-            // Subscribe to command topics
-            mqttClient.subscribe("esp32/commands/#");
+            // Subscribe to topics here if necessary
         } else {
-            Serial.print("Failed to connect to MQTT Broker: ");
+            Serial.print("Failed to connect to MQTT Broker, return code: ");
             Serial.println(mqttClient.state());
-            delay(5000); // Wait 5 seconds before retrying
+            delay(5000); // Wait before retrying
         }
     }
 }
+
 
 void mqttCallback(char* topic, byte* payload, unsigned int length) {
     // Ensure payload is null-terminated
