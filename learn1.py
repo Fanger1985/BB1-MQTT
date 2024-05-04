@@ -2,7 +2,7 @@ import requests
 import time
 
 # ESP32 Web Server configuration
-ESP32_IP = '192.168.1.149'
+ESP32_IP = '192.168.1.100'
 PORT = 80
 
 def send_command(command):
