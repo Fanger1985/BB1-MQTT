@@ -10,13 +10,14 @@ password = "XXX"  # MQTT Password
 subscribe_topics = ["esp32/status/+", "esp32/sensors/+"]
 
 # MQTT Client Setup
-client = mqtt.Client("PiBrain")
+# Specify the MQTT version 5.0 on client initialization
+client = mqtt.Client("PiBrain", protocol=mqtt.MQTTv5)
 
 # Set the username and password for MQTT broker
 client.username_pw_set(username, password)
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
+def on_connect(client, userdata, flags, rc, properties=None):
+    print("Connected with result code "+str(rc))
     # Subscribe to all topics of interest
     for topic in subscribe_topics:
         client.subscribe(topic)
