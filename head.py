@@ -46,6 +46,8 @@ def take_action(command):
     print(f"Action taken: {command}")
 
 try:
+    client.on_connect = on_connect
+    client.on_message = on_message
     client.connect(broker_address, port=port)
     client.loop_start()  # Start the loop in a non-blocking way
     while True:
