@@ -4,7 +4,7 @@ import random
 import time
 
 # Configuration for the ESP32 web server
-ESP32_IP = '192.168.1.149'
+ESP32_IP = '192.168.1.100'
 PORT = '80'
 BASE_URL = f'http://{ESP32_IP}:{PORT}'
 
